@@ -7,6 +7,7 @@ In your lua configuration, add the setup for the defaults.
 require('duckytype').setup{
   expected = "english_common",
   number_of_words = 50,
+  average_word_length = 5.8,
 }
 ```
 
@@ -18,7 +19,7 @@ want to to have a Go at go keywords.
 
 Then bind a key to
 ```lua
-require('duckytype').Start('go_keywords')
+require('duckytype').Start("go_keywords")
 ```
 
 #

@@ -106,9 +106,7 @@ Methods.Start = function(key_override)
         for _, line in ipairs(expected) do
           total = total + #line
         end
-        -- assuming an average word is 5.8 characters long - based on average
-        -- length of the english top 1000 common words
-        local wpm_estimate = (total / 5.8) / (elapsed / 60.0)
+        local wpm_estimate = (total / settings.average_word_length) / (elapsed / 60.0)
         local message = string.format(
         "you typed %d characters in %d seconds, that is roughly %d wpm!",
         total, elapsed, wpm_estimate)
