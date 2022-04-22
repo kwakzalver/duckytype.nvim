@@ -1,4 +1,5 @@
 local settings = require('duckytype.settings')
+local constants = require('duckytype.constants')
 
 local buffer
 local window
@@ -51,16 +52,13 @@ local function Update(T, U)
   end
 end
 
-Methods.Start = function()
-  -- TODO proper timing, starts on first keystroke
-  started = os.time()
-  finished = nil
+Methods.Start = function(key_override)
+  local key = key_override or settings.expected
+  local lookup_table = Expect(key, constants)
 
   buffer = vim.api.nvim_create_buf(false, true)
   window = vim.api.nvim_open_win(buffer, true, settings.window_config)
 
-  local key = settings.expected
-  local lookup_table = Expect(key, settings)
   expected = {}
   -- fill expected with random words from lookup_table
   local line = {}
@@ -139,6 +137,11 @@ Methods.Start = function()
   )
 
   Methods.RedrawBuffer()
+
+  -- TODO proper timing, starts on first keystroke instead of when window shows
+  started = os.time()
+  finished = nil
+
   -- TODO enter the new buffer on insert mode more idiomatically
   vim.api.nvim_input('i')
 end
