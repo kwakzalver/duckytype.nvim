@@ -17,6 +17,13 @@ local Defaults = {
     width = 80,
     height = 8,
   },
+
+  -- link correct/incorrect/remaining to highlighting groups
+  highlight = {
+    good = "Todo",
+    bad = "Error",
+    remaining = "Function",
+  },
 }
 
 return Defaults

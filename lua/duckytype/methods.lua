@@ -140,28 +140,12 @@ Methods.Start = function(key_override)
   -- full every keystroke, and things that result in a new newline are hardwired
   -- to redraw just to not have the virtual text shuffle back and forth
 
-  -- TODO make a InsertEnter autocmd instead of these two ugly workarounds (?)
-  local kmopts = { noremap = true, silent = true }
-  local km = function(mode, lhs, rhs)
-    vim.api.nvim_buf_set_keymap(buffer, mode, lhs, rhs, kmopts)
-  end
-  km('i',
-    [[<CR>]],
-    [[<CR><Esc>:lua require('duckytype').RedrawBuffer()<CR>i]]
-  )
-  km('n',
-    [[o]],
-    [[o<Esc>:lua require('duckytype').RedrawBuffer()<CR>i]]
-  )
-
   Methods.RedrawBuffer()
 
   -- TODO proper timing, starts on first keystroke instead of when window shows
   started = os.time()
   finished = nil
-
-  -- TODO enter the new buffer on insert mode more idiomatically
-  vim.api.nvim_input('i')
+  vim.cmd('startinsert')
 end
 
 Methods.Setup = function(update)
@@ -191,9 +175,9 @@ Methods.HighlightLine = function(buffer, line_index, line, prefix)
   local opts = {
     id = line_index + 1,
     virt_text = {
-      { good, "Todo"},
-      { bad, "Error" },
-      { remaining, "Type"},
+      { good, settings.highlight.good },
+      { bad, settings.highlight.bad },
+      { remaining, settings.highlight.remaining },
     },
     virt_text_pos = "overlay",
   }
@@ -202,25 +186,21 @@ Methods.HighlightLine = function(buffer, line_index, line, prefix)
 end
 
 Methods.RedrawBuffer = function()
-  local line_index_start = 1
-  local line_index_end = #expected + 1
-  local lines = vim.api.nvim_buf_get_lines(buffer, 0, line_index_end + 1, false)
-
+  local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
   local done = true
-  local offset = 0
-  while line_index_start + offset < line_index_end do
-    local line = lines[offset + 1]
+  for index = 1,#expected do
+    local line = lines[index]
     if line == nil then return false end
-    local prefix = expected[offset + 1]
+    local prefix = expected[index]
     if prefix == nil then return done end
-    local okay = Methods.HighlightLine(buffer, offset, line, prefix)
+    local okay = Methods.HighlightLine(buffer, index - 1, line, prefix)
     done = done and okay
     local cursor = vim.api.nvim_win_get_cursor(window)
     local row = cursor[1]
-    if okay and row - 1 == offset then
+    if okay and row == index then
+      -- jump to next line if current line is okay
       vim.api.nvim_win_set_cursor(window, { row + 1 , 0 })
     end
-    offset = offset + 1
   end
   return done
 end
