@@ -68,12 +68,16 @@ local function Update(T, U)
   end
 end
 
-Methods.Start = function(key_override)
+Methods.NewGame = function(key_override)
+  if buffer == nil then
+    error(string.format("\nno buffer?\n%s", Methods.megamind))
+  end
+  if window == nil then
+    error(string.format("\nno window?\n%s", Methods.megamind))
+  end
+
   local key = key_override or settings.expected
   local lookup_table = Expect(key, constants)
-
-  buffer = vim.api.nvim_create_buf(false, true)
-  window = vim.api.nvim_open_win(buffer, true, settings.window_config)
 
   expected = {}
   -- fill expected with random words from lookup_table
@@ -107,7 +111,27 @@ Methods.Start = function(key_override)
   for _, _ in ipairs(expected) do
     table.insert(empty, "")
   end
-  vim.api.nvim_buf_set_lines(buffer, 0, #empty + 1, false, empty)
+  vim.api.nvim_buf_set_lines(buffer, 0, -1, false, empty)
+end
+
+Methods.Start = function(key_override)
+  local key = key_override or settings.expected
+  local lookup_table = Expect(key, constants)
+
+  buffer = vim.api.nvim_create_buf(false, true)
+  window = vim.api.nvim_open_win(buffer, true, settings.window_config)
+
+  -- silly keymap to re-start a NewGame
+  local command = string.format(
+    "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key_override)
+  vim.api.nvim_buf_set_keymap(
+    buffer,
+    'i', [[<CR>]],
+    command,
+    { noremap = true, silent = true }
+  )
+
+  Methods.NewGame(key_override)
 
   -- local events = {}
   vim.api.nvim_buf_attach(buffer, false, {
@@ -184,6 +208,7 @@ Methods.HighlightLine = function(buffer, line_index, line, prefix)
   local id = vim.api.nvim_buf_set_extmark(buffer, namespace, line_index, 0, opts)
   return #remaining == 0
 end
+
 
 Methods.RedrawBuffer = function()
   local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
