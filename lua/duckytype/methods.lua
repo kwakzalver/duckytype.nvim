@@ -12,7 +12,7 @@ local namespace = vim.api.nvim_create_namespace("DuckyType.nvim")
 local Methods = {}
 
 local function Expect(key, T)
-  v = T[key]
+  local v = T[key]
   if v == nil then
     error("no " .. key .. "?")
   end
@@ -39,7 +39,7 @@ local function Update(T, U)
     error("Invalid types given in Update(T, U) (see above)!")
   end
   for k, v in pairs(U) do
-    c = T[k]
+    local c = T[k]
     if c == nil then
       Print(U)
       error("Update was unsuccessful, because key «" .. tostring(k) .. "» is invalid!")
