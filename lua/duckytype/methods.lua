@@ -123,13 +123,11 @@ Methods.Start = function(key_override)
 
   -- silly keymap to re-start a NewGame
   local command = string.format(
-    "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key_override)
-  vim.api.nvim_buf_set_keymap(
-    buffer,
-    'i', [[<CR>]],
-    command,
-    { noremap = true, silent = true }
-  )
+    "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key_override
+    )
+  vim.api.nvim_buf_set_keymap(buffer, 'n', [[<CR>]], command, {
+    noremap = true, silent = true,
+  })
 
   Methods.NewGame(key_override)
 
@@ -155,6 +153,8 @@ Methods.Start = function(key_override)
         "you typed %d characters in %d seconds, that is roughly %d wpm!",
         total, elapsed, wpm_estimate)
         Methods.HighlightLine(buffer, #expected, ":: ", message)
+        -- TODO this is probably sensitive to user-defined keybindings?
+        vim.api.nvim_input("<Esc>j")
         Methods.RedrawBuffer()
       end
     end
