@@ -11,10 +11,26 @@ local namespace = vim.api.nvim_create_namespace("DuckyType.nvim")
 
 local Methods = {}
 
+Methods.megamind = table.concat({
+  "⠀⣞⢽⢪⢣⢣⢣⢫⡺⡵⣝⡮⣗⢷⢽⢽⢽⣮⡷⡽⣜⣜⢮⢺⣜⢷⢽⢝⡽⣝",
+  "⠸⡸⠜⠕⠕⠁⢁⢇⢏⢽⢺⣪⡳⡝⣎⣏⢯⢞⡿⣟⣷⣳⢯⡷⣽⢽⢯⣳⣫⠇",
+  "⠀⠀⢀⢀⢄⢬⢪⡪⡎⣆⡈⠚⠜⠕⠇⠗⠝⢕⢯⢫⣞⣯⣿⣻⡽⣏⢗⣗⠏⠀",
+  "⠀⠪⡪⡪⣪⢪⢺⢸⢢⢓⢆⢤⢀⠀⠀⠀⠀⠈⢊⢞⡾⣿⡯⣏⢮⠷⠁⠀⠀⠀",
+  "⠀⠀⠀⠈⠊⠆⡃⠕⢕⢇⢇⢇⢇⢇⢏⢎⢎⢆⢄⠀⢑⣽⣿⢝⠲⠉⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⠀⡿⠂⠠⠀⡇⢇⠕⢈⣀⠀⠁⠡⠣⡣⡫⣂⣿⠯⢪⠰⠂⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⡦⡙⡂⢀⢤⢣⠣⡈⣾⡃⠠⠄⠀⡄⢱⣌⣶⢏⢊⠂⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⢝⡲⣜⡮⡏⢎⢌⢂⠙⠢⠐⢀⢘⢵⣽⣿⡿⠁⠁⠀⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⠨⣺⡺⡕⡕⡱⡑⡆⡕⡅⡕⡜⡼⢽⡻⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⣼⣳⣫⣾⣵⣗⡵⡱⡡⢣⢑⢕⢜⢕⡝⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⣴⣿⣾⣿⣿⣿⡿⡽⡑⢌⠪⡢⡣⣣⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+  "⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+}, "\n")
+
 local function Expect(key, T)
   local v = T[key]
   if v == nil then
-    error("no " .. key .. "?")
+    error(string.format("\nno «%s»?\n%s", tostring(key), Methods.megamind))
   end
   return v
 end
@@ -23,12 +39,12 @@ local function Print(structure, prefix)
   prefix = prefix or "X"
   local s_type = type(structure)
   if (s_type ~= "table") then
-    print(prefix .. " = " .. structure .. " (" .. s_type .. ")")
+    print(string.format("%s = %s (%s)", prefix, tostring(structure), s_type))
     return
   end
-  print(prefix .. " (" .. s_type .. ")")
+  print(string.format("%s (%s)", prefix, s_type))
   for k, v in pairs(structure) do
-    Print(v, prefix .. "[" .. tostring(k) .. "]")
+    Print(v, string.format("%s [%s]", prefix, tostring(k)))
   end
 end
 
@@ -42,7 +58,7 @@ local function Update(T, U)
     local c = T[k]
     if c == nil then
       Print(U)
-      error("Update was unsuccessful, because key «" .. tostring(k) .. "» is invalid!")
+      error(string.format("Update was unsuccessful, because key «%s» is invalid!", tostring(k)))
     end
     if type(c) == "table" then
       Update(c, v)
