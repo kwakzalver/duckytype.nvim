@@ -169,25 +169,17 @@ Methods.Setup = function(update)
   Update(settings, update)
 end
 
-local function StartsWith(s, prefix)
-  return s:find(prefix, 1, true) == 1
-end
-
 local function LongestPrefixLength(s, prefix)
-  -- NOTE terribly inefficient
-  -- TODO this should be done linear, not quadratic
-  -- how to iterate over a string?
-  if StartsWith(s, prefix) then
-    return #prefix
+  local expected = {}
+  for i = 1,#s do
+    table.insert(expected, string.sub(s, i, i))
   end
-  if not StartsWith(s, string.sub(prefix, 1, 1)) then
-    return 0
+  for i = 1,#prefix do
+    if expected[i] ~= string.sub(prefix, i, i) then
+      return i - 1
+    end
   end
-  local length = 2
-  while StartsWith(s, string.sub(prefix, 1, length)) do
-    length = length + 1
-  end
-  return length - 1
+  return #prefix
 end
 
 Methods.HighlightLine = function(buffer, line_index, line, prefix)
