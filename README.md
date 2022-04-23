@@ -14,6 +14,8 @@ Then start with
 require('duckytype').Start()
 ```
 
+[duckytype](https://user-images.githubusercontent.com/104157438/164890512-a82ed072-d9ff-451c-8bfe-47a292486759.mov)
+
 ## Settings
 
 By default, the expected words are randomly sampled from `english_common`.
