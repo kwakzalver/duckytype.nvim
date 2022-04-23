@@ -64,7 +64,7 @@ Methods.Start = function(key_override)
   local line = {}
   local line_width = 0
   math.randomseed(os.time())
-  for i=0,settings.number_of_words do
+  for _ = 1,settings.number_of_words do
     local random = lookup_table[math.ceil(math.random() * #lookup_table)]
     line_width = line_width + #random + 1
     if line_width >= settings.window_config.width then
