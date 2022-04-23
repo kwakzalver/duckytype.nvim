@@ -112,6 +112,10 @@ Methods.NewGame = function(key_override)
     table.insert(empty, "")
   end
   vim.api.nvim_buf_set_lines(buffer, 0, -1, false, empty)
+
+  -- TODO proper timing, starts on first keystroke instead of when window shows
+  started = os.time()
+  finished = nil
 end
 
 Methods.Start = function(key_override)
@@ -166,9 +170,6 @@ Methods.Start = function(key_override)
 
   Methods.RedrawBuffer()
 
-  -- TODO proper timing, starts on first keystroke instead of when window shows
-  started = os.time()
-  finished = nil
   vim.cmd('startinsert')
 end
 
