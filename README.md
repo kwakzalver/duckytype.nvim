@@ -16,6 +16,10 @@ require('duckytype').Start()
 
 [duckytype](https://user-images.githubusercontent.com/104157438/164890512-a82ed072-d9ff-451c-8bfe-47a292486759.mov)
 
+When a game is finished, the user can hit `Enter` in normal mode to start a new
+game. Normal mode is entered automatically. The little window behaves just like
+any other window, you can use `:q` to close it.
+
 ## Settings
 
 By default, the expected words are randomly sampled from `english_common`.
