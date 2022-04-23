@@ -77,6 +77,10 @@ Methods.Start = function(key_override)
     table.insert(line, random)
   end
 
+  -- insert whatever was still remaining (it did not meet the line_width wrap)
+  local line_text = string.format("%s ", table.concat(line, " "))
+  table.insert(expected, line_text)
+
   -- remove the last trailing space from expected lines
   local lastline = expected[#expected]
   expected[#expected] = string.sub(lastline, 1, #lastline - 1)
