@@ -120,7 +120,7 @@ end
 
 Methods.Start = function(key_override)
   local key = key_override or settings.expected
-  local lookup_table = Expect(key, constants)
+  local _ = Expect(key, constants)
 
   buffer = vim.api.nvim_create_buf(false, true)
   window = vim.api.nvim_open_win(buffer, true, settings.window_config)
@@ -157,7 +157,7 @@ Methods.Start = function(key_override)
           "you typed %d characters in %d seconds, that is roughly %d wpm!",
           total, elapsed, wpm_estimate
         )
-        Methods.HighlightLine(buffer, #expected, ":: ", message)
+        Methods.HighlightLine(#expected, ":: ", message)
         -- TODO this is probably sensitive to user-defined keybindings?
         vim.api.nvim_input("<Esc>j")
         Methods.RedrawBuffer()
@@ -200,24 +200,23 @@ Methods.Setup = function(update)
 end
 
 local function LongestPrefixLength(s, prefix)
-  local expected = {}
+  local e = {}
   for i = 1, #s do
-    table.insert(expected, string.sub(s, i, i))
+    table.insert(e, string.sub(s, i, i))
   end
   for i = 1, #prefix do
-    if expected[i] ~= string.sub(prefix, i, i) then
+    if e[i] ~= string.sub(prefix, i, i) then
       return i - 1
     end
   end
   return #prefix
 end
 
-Methods.HighlightLine = function(buffer, line_index, line, prefix)
+Methods.HighlightLine = function(line_index, line, prefix)
   local length = LongestPrefixLength(line, prefix)
   local good = string.sub(line, 1, length)
   local bad = string.sub(line, length + 1)
   local remaining = string.sub(prefix, length + 1)
-  local column = length
   local opts = {
     id = line_index + 1,
     virt_text = {
@@ -227,7 +226,7 @@ Methods.HighlightLine = function(buffer, line_index, line, prefix)
     },
     virt_text_pos = "overlay",
   }
-  local id = vim.api.nvim_buf_set_extmark(buffer, namespace, line_index, 0, opts)
+  local _ = vim.api.nvim_buf_set_extmark(buffer, namespace, line_index, 0, opts)
   return #remaining == 0
 end
 
@@ -240,7 +239,7 @@ Methods.RedrawBuffer = function()
     if line == nil then return false end
     local prefix = expected[index]
     if prefix == nil then return done end
-    local okay = Methods.HighlightLine(buffer, index - 1, line, prefix)
+    local okay = Methods.HighlightLine(index - 1, line, prefix)
     done = done and okay
     local cursor = vim.api.nvim_win_get_cursor(window)
     local row = cursor[1]
