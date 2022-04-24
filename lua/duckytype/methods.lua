@@ -176,6 +176,26 @@ end
 Methods.Setup = function(update)
   update = update or {}
   Update(settings, update)
+
+  -- NOTE: thank `@bryant-the-coder` for this idea
+  -- introduce user command with autocompletion
+  vim.api.nvim_create_user_command("DuckyType", function(input)
+    local option = input.args
+    if #option == 0 then
+      option = nil
+    end
+    Methods.Start(option)
+  end, {
+    force = true,
+    nargs = '*',
+    complete = function()
+      local names = {}
+      for name, _ in pairs(constants) do
+        table.insert(names, name)
+      end
+      return names
+    end,
+  })
 end
 
 local function LongestPrefixLength(s, prefix)
