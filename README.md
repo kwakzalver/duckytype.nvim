@@ -8,10 +8,10 @@ In your lua configuration, add an empty setup to accept the defaults.
 require('duckytype').setup{}
 ```
 
-Then start with
+Then start with the user command
 
 ```lua
-require('duckytype').Start()
+:DuckyType
 ```
 
 [duckytype](https://user-images.githubusercontent.com/104157438/164890512-a82ed072-d9ff-451c-8bfe-47a292486759.mov)
