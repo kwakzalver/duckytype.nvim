@@ -36,7 +36,7 @@ require('duckytype').setup{
 }
 ```
 
-**NOTE** when you override a non-existing key it will error
+**NOTE** When you override a non-existing key it will error
 
 The keywords source can be edited in the setup, but it could also be passed as
 an argument to the `Start` function, so there is no need to reload vim if you
@@ -52,6 +52,50 @@ require('duckytype').Start("python_keywords")
 require('duckytype').Start("go_keywords")
 ```
 
-**NOTE** Feel free to add keywords in a pull request.
+### Potentially lesser known settings (but default for neovim)
+
+The `nvim_open_win` `{config}` parameter can be overridden in the `setup`.
+Where its key is named `window_config`. Use `:h nvim_open_win` in neovim to see
+what kind of window customizations there are by default.
+
+For instance, you could have the setup load a random border each time by having
+the following setup in your lua configuration.
+
+```lua
+local borders = { "none", "single", "double", "rounded", "solid", "shadow" }
+math.randomseed(os.time())
+require('duckytype').setup{
+  number_of_words = 10,
+  window_config = {
+    border = borders[math.ceil(math.random() * #borders)]
+  },
+}
+```
+
+The highlighting for correctly typed, incorrectly typed, and remaining texts
+are also exposed by the setup. They could be linked to other highlighting
+groups if you prefer different colors.
+
+Usually the `Comment` highlighting group makes text stand out quite a bit less,
+so if you want the correctly typed words to just kind of _vanish_, you could
+link good to `Comment` like in the following setup.
+
+```lua
+require('duckytype').setup{
+  number_of_words = 10,
+  highlight = {
+    good = "Comment",
+    bad = "Error",
+    remaining = "Todo",
+  },
+}
+```
+
+Check out the default syntax highlighting groups with `:h group-name` in
+neovim.
+
+## Contribute?
+
+Feel free to make an issue for anything that's on your mind.
 
 #
