@@ -84,7 +84,7 @@ Methods.NewGame = function(key_override)
   local line = {}
   local line_width = 0
   math.randomseed(os.time())
-  for _ = 1,settings.number_of_words do
+  for _ = 1, settings.number_of_words do
     local random = lookup_table[math.ceil(math.random() * #lookup_table)]
     line_width = line_width + #random + 1
     if line_width >= settings.window_config.width then
@@ -128,7 +128,7 @@ Methods.Start = function(key_override)
   -- silly keymap to re-start a NewGame
   local command = string.format(
     "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key
-    )
+  )
   vim.api.nvim_buf_set_keymap(buffer, 'n', [[<CR>]], command, {
     noremap = true, silent = true,
   })
@@ -154,8 +154,9 @@ Methods.Start = function(key_override)
         end
         local wpm_estimate = (total / settings.average_word_length) / (elapsed / 60.0)
         local message = string.format(
-        "you typed %d characters in %d seconds, that is roughly %d wpm!",
-        total, elapsed, wpm_estimate)
+          "you typed %d characters in %d seconds, that is roughly %d wpm!",
+          total, elapsed, wpm_estimate
+        )
         Methods.HighlightLine(buffer, #expected, ":: ", message)
         -- TODO this is probably sensitive to user-defined keybindings?
         vim.api.nvim_input("<Esc>j")
@@ -200,10 +201,10 @@ end
 
 local function LongestPrefixLength(s, prefix)
   local expected = {}
-  for i = 1,#s do
+  for i = 1, #s do
     table.insert(expected, string.sub(s, i, i))
   end
-  for i = 1,#prefix do
+  for i = 1, #prefix do
     if expected[i] ~= string.sub(prefix, i, i) then
       return i - 1
     end
@@ -234,7 +235,7 @@ end
 Methods.RedrawBuffer = function()
   local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
   local done = true
-  for index = 1,#expected do
+  for index = 1, #expected do
     local line = lines[index]
     if line == nil then return false end
     local prefix = expected[index]
@@ -245,7 +246,7 @@ Methods.RedrawBuffer = function()
     local row = cursor[1]
     if okay and row == index then
       -- jump to next line if current line is okay
-      vim.api.nvim_win_set_cursor(window, { row + 1 , 0 })
+      vim.api.nvim_win_set_cursor(window, { row + 1, 0 })
     end
   end
   return done
