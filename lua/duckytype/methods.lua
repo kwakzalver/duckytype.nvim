@@ -127,7 +127,7 @@ Methods.Start = function(key_override)
 
   -- silly keymap to re-start a NewGame
   local command = string.format(
-    "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key_override
+    "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key
     )
   vim.api.nvim_buf_set_keymap(buffer, 'n', [[<CR>]], command, {
     noremap = true, silent = true,
