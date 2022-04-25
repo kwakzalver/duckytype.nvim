@@ -103,7 +103,7 @@ Methods.NewGame = function(key_override)
 
   -- remove the last trailing space from expected lines
   local lastline = expected[#expected]
-  expected[#expected] = string.sub(lastline, 1, #lastline - 1)
+  expected[#expected] = lastline:sub(1, #lastline - 1)
 
   -- pad the current buffer with some empty strings, so the virtual text
   -- highlighting shows. and +3 more just for good measure.
@@ -202,10 +202,10 @@ end
 local function LongestPrefixLength(s, prefix)
   local e = {}
   for i = 1, #s do
-    table.insert(e, string.sub(s, i, i))
+    table.insert(e, s:sub(i, i))
   end
   for i = 1, #prefix do
-    if e[i] ~= string.sub(prefix, i, i) then
+    if e[i] ~= prefix:sub(i, i) then
       return i - 1
     end
   end
@@ -214,9 +214,9 @@ end
 
 Methods.HighlightLine = function(line_index, line, prefix)
   local length = LongestPrefixLength(line, prefix)
-  local good = string.sub(line, 1, length)
-  local bad = string.sub(line, length + 1)
-  local remaining = string.sub(prefix, length + 1)
+  local good = line:sub(1, length)
+  local bad = line:sub(length + 1)
+  local remaining = prefix:sub(length + 1)
   local opts = {
     id = line_index + 1,
     virt_text = {
