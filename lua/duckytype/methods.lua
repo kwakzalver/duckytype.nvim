@@ -27,7 +27,7 @@ Methods.megamind = table.concat({
   "⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 }, "\n")
 
-local function Expect(key, T)
+Methods.Expect = function(key, T)
   local v = T[key]
   if v == nil then
     error(string.format("\nno «%s»?\n%s", tostring(key), Methods.megamind))
@@ -35,7 +35,7 @@ local function Expect(key, T)
   return v
 end
 
-local function Print(structure, prefix)
+Methods.Print = function(structure, prefix)
   prefix = prefix or "X"
   local s_type = type(structure)
   if (s_type ~= "table") then
@@ -44,24 +44,24 @@ local function Print(structure, prefix)
   end
   print(string.format("%s (%s)", prefix, s_type))
   for k, v in pairs(structure) do
-    Print(v, string.format("%s [%s]", prefix, tostring(k)))
+    Methods.Print(v, string.format("%s [%s]", prefix, tostring(k)))
   end
 end
 
-local function Update(T, U)
+Methods.Update = function(T, U)
   if type(T) ~= "table" or type(U) ~= "table" then
-    Print(T, "defaults")
-    Print(U, "update")
+    Methods.Print(T, "defaults")
+    Methods.Print(U, "update")
     error("Invalid types given in Update(T, U) (see above)!")
   end
   for k, v in pairs(U) do
     local c = T[k]
     if c == nil then
-      Print(U)
+      Methods.Print(U)
       error(string.format("Update was unsuccessful, because key «%s» is invalid!", tostring(k)))
     end
     if type(c) == "table" then
-      Update(c, v)
+      Methods.Update(c, v)
     else
       T[k] = v
     end
@@ -77,7 +77,7 @@ Methods.NewGame = function(key_override)
   end
 
   local key = key_override or settings.expected
-  local lookup_table = Expect(key, constants)
+  local lookup_table = Methods.Expect(key, constants)
 
   expected = {}
   -- fill expected with random words from lookup_table
@@ -120,7 +120,7 @@ end
 
 Methods.Start = function(key_override)
   local key = key_override or settings.expected
-  local _ = Expect(key, constants)
+  local _ = Methods.Expect(key, constants)
 
   buffer = vim.api.nvim_create_buf(false, true)
   window = vim.api.nvim_open_win(buffer, true, settings.window_config)
@@ -130,6 +130,9 @@ Methods.Start = function(key_override)
     "<Esc>:lua require('duckytype').NewGame('%s')<CR>ggi", key
   )
   vim.api.nvim_buf_set_keymap(buffer, 'n', [[<CR>]], command, {
+    noremap = true, silent = true,
+  })
+  vim.api.nvim_buf_set_keymap(buffer, 'i', [[<CR>]], [[<Space>]], {
     noremap = true, silent = true,
   })
 
@@ -165,7 +168,7 @@ Methods.Start = function(key_override)
     end
   })
 
-  -- TODO fix the entire mess below, currently the virtual text is redrawn in
+  -- TODO fix the entire mess, currently the virtual text is redrawn in
   -- full every keystroke, and things that result in a new newline are hardwired
   -- to redraw just to not have the virtual text shuffle back and forth
 
@@ -176,7 +179,7 @@ end
 
 Methods.Setup = function(update)
   update = update or {}
-  Update(settings, update)
+  Methods.Update(settings, update)
 
   -- NOTE: thank `@bryant-the-coder` for this idea
   -- introduce user command with autocompletion
@@ -189,17 +192,23 @@ Methods.Setup = function(update)
   end, {
     force = true,
     nargs = '*',
-    complete = function()
+    complete = function(prefix)
       local names = {}
       for name, _ in pairs(constants) do
-        table.insert(names, name)
+        if Methods.StartsWith(name, prefix) then
+          table.insert(names, name)
+        end
       end
       return names
     end,
   })
 end
 
-local function LongestPrefixLength(s, prefix)
+Methods.StartsWith = function(s, prefix)
+  return s:find(prefix, 1, true) == 1
+end
+
+Methods.LongestPrefixLength = function(s, prefix)
   local e = {}
   for i = 1, #s do
     table.insert(e, s:sub(i, i))
@@ -213,7 +222,7 @@ local function LongestPrefixLength(s, prefix)
 end
 
 Methods.HighlightLine = function(line_index, line, prefix)
-  local length = LongestPrefixLength(line, prefix)
+  local length = Methods.LongestPrefixLength(line, prefix)
   local good = line:sub(1, length)
   local bad = line:sub(length + 1)
   local remaining = prefix:sub(length + 1)
