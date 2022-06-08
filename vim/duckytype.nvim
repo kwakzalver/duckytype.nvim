@@ -1,4 +1,0 @@
-if !has('nvim')
-  echoerr("no neovim?")
-  finish
-endif
