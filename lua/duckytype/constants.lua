@@ -1,116 +1,41 @@
 local Constants = {}
 
--- TODO add a ton from the std::library
 Constants.cpp_keywords = {
-  "alignas", "alignof", "and", "and_eq", "asm", "auto", "bitand", "bitor",
-  "bool", "break", "case", "catch", "char", "char16_t", "char32_t", "char8_t",
-  "class", "co_await", "co_return", "co_yield", "compl", "concept", "const",
-  "const_cast", "consteval", "constexpr", "constinit", "continue", "decltype",
-  "default", "define", "delete", "do", "double", "dynamic_cast", "else",
-  "enum", "explicit", "export", "extern", "final", "float", "for", "friend",
-  "goto", "if", "import", "include", "inline", "int", "long", "module",
-  "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr",
-  "operator", "or", "or_eq", "override", "pragma", "private", "protected",
-  "public", "register", "reinterpret_cast", "requires", "return", "short",
-  "signed", "sizeof", "static", "static_assert", "static_cast", "struct",
-  "switch", "template", "this", "thread_local", "throw", "try", "typedef",
-  "typeid", "typename", "union", "unsigned", "using", "virtual", "void",
-  "volatile", "wchar_t", "while", "xor", "xor_eq",
+  "alignas", "alignof", "and", "and_eq", "asm", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t", "char8_t", "class", "co_await", "co_return", "co_yield", "compl", "concept", "const", "const_cast", "consteval", "constexpr", "constinit", "continue", "decltype", "default", "define", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "final", "float", "for", "friend", "goto", "if", "import", "include", "inline", "int", "long", "module", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "override", "pragma", "private", "protected", "public", "register", "reinterpret_cast", "requires", "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "template", "this", "thread_local", "throw", "try", "typedef", "typeid", "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq",
 
-  -- terrible to type :^)
-  "#pragma once",
-  "#include <algorithm>", "#include <array>", "#include <bitset>",
-  "#include <chrono>", "#include <cmath>", "#include <concepts>",
-  "#include <filesystem>", "#include <fstream>", "#include <functional>",
-  "#include <iostream>", "#include <limits>", "#include <map>",
-  "#include <memory>", "#include <mutex>", "#include <optional>",
-  "#include <random>", "#include <set>", "#include <sstream>",
-  "#include <string>", "#include <string_view>", "#include <thread>",
-  "#include <type_traits>", "#include <unordered_map>",
-  "#include <unordered_set>", "#include <variant>", "#include <vector>",
+  "template <typename T>", "template <class T>", "[](){}()", "[&](){}", "[=](){}",
 
-  -- std::library
-  "auto main() -> int {}", "[](){}()", "[&](){}", "[=](){}", "std::deez_nuts",
-  "std::any", "std::any_cast", "std::apply", "std::array", "std::async",
-  "std::back_inserter", "std::begin", "std::bit_cast", "std::bitset",
-  "std::byte", "std::cbegin", "std::cend", "std::chrono", "std::cin",
-  "std::conditional", "std::cout", "std::decltype", "std::declval",
-  "std::distance", "std::enable_if", "std::enable_if_t", "std::end",
-  "std::endl", "std::execution", "std::experimental", "std::filesystem",
-  "std::find", "std::for_each", "std::forward", "std::free", "std::function",
-  "std::generate_n", "std::get", "std::getline", "std::hash", "std::ifstream",
-  "std::ignore", "std::index_sequence_for", "std::initializer_list",
-  "std::int16_t", "std::int32_t", "std::int64_t", "std::int8_t",
-  "std::integer_sequence", "std::integral_constant", "std::invoke",
-  "std::is_constant_evaluated", "std::is_integral", "std::is_integral_v",
-  "std::is_same", "std::is_same_v", "std::is_signed_v",
-  "std::is_trivially_copyable", "std::is_void", "std::isnan",
-  "std::istringstream", "std::jthread", "std::lock_guard",
-  "std::make_integer_sequence", "std::make_pair", "std::make_shared",
-  "std::make_unique", "std::map", "std::max_element", "std::memcpy",
-  "std::midpoint", "std::min_element", "std::minmax", "std::move",
-  "std::mt19937", "std::mutex", "std::nullopt", "std::numbers",
-  "std::numeric_limits", "std::ofstream", "std::optional", "std::osyncstream",
-  "std::popcount", "std::random_device", "std::ref", "std::scoped_lock",
-  "std::set", "std::shared_ptr", "std::size_t", "std::sort", "std::span",
-  "std::stoi", "std::string", "std::string_view", "std::stringstream",
-  "std::swap", "std::terminate", "std::this_thread::sleep_for", "std::thread",
-  "std::tie", "std::to_array", "std::to_string", "std::transform",
-  "std::tuple", "std::uint16_t", "std::uint32_t", "std::uint64_t",
-  "std::uint8_t", "std::uniform_int_distribution", "std::unique_ptr",
-  "std::unordered_map", "std::unordered_set", "std::variant", "std::vector",
+  "#pragma once", "#include",
+  "<algorithm>", "<array>", "<bitset>", "<chrono>", "<cmath>", "<concepts>", "<cstdint>", "<filesystem>", "<fstream>", "<functional>", "<iostream>", "<limits>", "<map>", "<memory>", "<mutex>", "<optional>", "<random>", "<set>", "<sstream>", "<string>", "<string_view>", "<thread>", "<type_traits>", "<unordered_map>", "<unordered_set>", "<variant>", "<vector>",
+
+  "any", "any_cast", "apply", "array", "async", "back_inserter", "begin", "bit_cast", "bitset", "byte", "cbegin", "cend", "chrono", "cin", "conditional", "cout", "decltype", "declval", "distance", "enable_if", "enable_if_t", "end", "endl", "execution", "experimental", "filesystem", "find", "for_each", "forward", "free", "function", "generate_n", "get", "getline", "hash", "ifstream", "ignore", "index_sequence_for", "initializer_list", "int16_t", "int32_t", "int64_t", "int8_t", "integer_sequence", "integral_constant", "invoke", "is_constant_evaluated", "is_integral", "is_integral_v", "is_same", "is_same_v", "is_signed_v", "is_trivially_copyable", "is_void", "isnan", "istringstream", "jthread", "lock_guard", "make_integer_sequence", "make_pair", "make_shared", "make_unique", "map", "max_element", "memcpy", "midpoint", "min_element", "minmax", "move", "mt19937", "mutex", "nullopt", "numbers", "numeric_limits", "ofstream", "optional", "osyncstream", "popcount", "random_device", "ref", "scoped_lock", "set", "shared_ptr", "size_t", "sort", "span", "stoi", "string", "string_view", "stringstream", "swap", "terminate", "this_thread::sleep_for", "thread", "tie", "to_array", "to_string", "transform", "tuple", "uint16_t", "uint32_t", "uint64_t", "uint8_t", "uniform_int_distribution", "unique_ptr", "unordered_map", "unordered_set", "variant", "vector",
 }
 
--- TODO add common constructions, function signatures (with generics)
 Constants.go_keywords = {
-  "append", "bool", "break", "byte", "cap", "case", "chan", "close", "complex",
-  "const", "continue", "copy", "default", "defer", "delete", "else", "error",
-  "fallthrough", "float", "for", "func", "go", "goto", "if", "imag", "import",
-  "int", "interface", "iota", "len", "make", "map", "nil", "package", "panic",
-  "print", "println", "range", "real", "recover", "return", "rune", "select",
-  "string", "struct", "switch", "type", "uint", "uintptr", "var",
+  "append", "bool", "break", "byte", "cap", "case", "chan", "close", "complex", "const", "continue", "copy", "default", "defer", "delete", "else", "error", "fallthrough", "float", "for", "func", "go", "goto", "if", "imag", "import", "int", "interface", "iota", "len", "make", "map", "nil", "package", "panic", "print", "println", "range", "real", "recover", "return", "rune", "select", "string", "struct", "switch", "type", "uint", "uintptr", "var",
 }
 
--- TODO get some rust zealot to add more rusty words
 Constants.rust_keywords = {
-  "Self", "abstract", "alignof", "as", "assert", "assert_approx_eq",
-  "assert_eq", "become", "bool", "box", "break", "char", "const", "continue",
-  "crate", "dbg", "do", "else", "enum", "eprint", "eprintln", "extern",
-  "final", "fn", "for", "format", "if", "impl", "in", "isize", "let", "loop",
-  "macro", "macro_rules", "match", "mod", "move", "mut", "offsetof",
-  "override", "panic", "print", "println", "priv", "pub", "pure", "ref",
-  "return", "self", "sizeof", "static", "str", "struct", "super", "trait",
-  "type", "typeof", "union", "unsafe", "unsized", "use", "usize", "virtual",
-  "where", "while", "yield",
+  "Self", "abstract", "alignof", "as", "assert", "assert_approx_eq", "assert_eq", "become", "bool", "box", "break", "char", "const", "continue", "crate", "dbg", "do", "else", "enum", "eprint", "eprintln", "extern", "final", "fn", "for", "format", "if", "impl", "in", "isize", "let", "loop", "macro", "macro_rules", "match", "mod", "move", "mut", "offsetof", "override", "panic", "print", "println", "priv", "pub", "pure", "ref", "return", "self", "sizeof", "static", "str", "struct", "super", "trait", "type", "typeof", "union", "unsafe", "unsized", "use", "usize", "virtual", "where", "while", "yield",
 }
 
 -- TODO add words from numpy, pandas, matplotlib, and more great libraries.
 Constants.python_keywords = {
-  "None", "abs", "all", "and", "any", "as", "ascii", "assert", "async",
-  "await", "bin", "bool", "break", "bytearray", "bytes", "callable", "case",
-  "chr", "class", "classmethod", "compile", "complex", "continue", "def",
-  "del", "delattr", "dict", "dir", "divmod", "elif", "else", "enumerate",
-  "eval", "except", "exec", "file", "filter", "finally", "float", "for",
-  "format", "from", "frozenset", "getattr", "global", "globals", "hasattr",
-  "hash", "help", "hex", "id", "if", "import", "in", "input", "int", "is",
-  "isinstance", "issubclass", "iter", "lambda", "len", "list", "locals", "map",
-  "match", "max", "memoryview", "min", "next", "not", "object", "oct", "open",
-  "or", "ord", "pass", "pow", "print", "property", "raise", "range", "repr",
-  "return", "reversed", "round", "set", "setattr", "slice", "sorted",
-  "staticmethod", "str", "sum", "super", "try", "tuple", "type", "vars",
-  "while", "with", "yield", "zip",
+  "None", "abs", "all", "and", "any", "as", "ascii", "assert", "async", "await", "bin", "bool", "break", "bytearray", "bytes", "callable", "case", "chr", "class", "classmethod", "compile", "complex", "continue", "def", "del", "delattr", "dict", "dir", "divmod", "elif", "else", "enumerate", "eval", "except", "exec", "file", "filter", "finally", "float", "for", "format", "from", "frozenset", "getattr", "global", "globals", "hasattr", "hash", "help", "hex", "id", "if", "import", "in", "input", "int", "is", "isinstance", "issubclass", "iter", "lambda", "len", "list", "locals", "map", "match", "max", "memoryview", "min", "next", "not", "object", "oct", "open", "or", "ord", "pass", "pow", "print", "property", "raise", "range", "repr", "return", "reversed", "round", "set", "setattr", "slice", "sorted", "staticmethod", "str", "sum", "super", "try", "tuple", "type", "vars", "while", "with", "yield", "zip",
 }
 
--- TODO not sure, what is lua even, never heard of it
 Constants.lua_keywords = {
-  "_G", "_VERSION", "and", "arg", "assert", "break", "collectgarbage",
-  "coroutine", "debug", "do", "dofile", "else", "elseif", "end", "error",
-  "for", "function", "getmetatable", "goto", "if", "in", "io", "ipairs",
-  "load", "loadfile", "local", "math", "next", "nil", "not", "or", "os",
-  "package", "pairs", "pcall", "print", "rawequal", "rawget", "rawlen",
-  "rawset", "repeat", "require", "return", "select", "setmetatable", "string",
-  "table", "then", "tonumber", "tostring", "type", "until", "utf8", "warn",
-  "while", "xpcall",
+  "_G", "_VERSION", "and", "arg", "assert", "break", "collectgarbage", "coroutine", "debug", "do", "dofile", "else", "elseif", "end", "error", "for", "function", "getmetatable", "goto", "if", "in", "io", "ipairs", "load", "loadfile", "local", "math", "next", "nil", "not", "or", "os", "package", "pairs", "pcall", "print", "rawequal", "rawget", "rawlen", "rawset", "repeat", "require", "return", "select", "setmetatable", "string", "table", "then", "tonumber", "tostring", "type", "until", "utf8", "warn", "while", "xpcall",
+}
+
+-- zig go fast
+Constants.zig_keywords = {
+  "and", "anyerror", "anytype", "bool", "break", "catch", "comptime", "const", "continue", "defer", "else", "export", "f16", "f32", "f64", "f8", "fn", "for", "i16", "i32", "i64", "i8", "if", "import", "inline", "noreturn", "null", "or", "orelse", "packed", "pub", "return", "std", "struct", "switch", "test", "try", "u16", "u32", "u64", "u8", "undefined", "union", "unreachable", "usize", "var", "void", "volatile", "while",
+}
+
+-- haskell go slow
+Constants.haskell_keywords = {
+  "abs", "acos", "acosh", "all", "and", "any", "appendFile", "asTypeOf", "asin", "asinh", "atan", "atan2", "atanh", "break", "case", "ceiling", "class", "compare", "concat", "concatMap", "const", "cos", "cosh", "curry", "cycle", "data", "decodeFloat", "default", "deriving", "div", "divMod", "do", "drop", "dropWhile", "elem", "else", "encodeFloat", "enumFrom", "enumFromThen", "enumFromThenTo", "enumFromTo", "error", "errorWithoutStackTrace", "even", "exp", "exponent", "fail", "family", "filter", "flip", "floatDigits", "floatRadix", "floatRange", "floor", "fmap", "foldMap", "foldl", "foldl1", "foldr", "foldr1", "fromEnum", "fromInteger", "fromIntegral", "fromRational", "fst", "gcd", "getChar", "getContents", "getLine", "head", "id", "if", "import", "in", "infix", "infixl", "infixr", "init", "instance", "interact", "isDenormalized", "isIEEE", "isInfinite", "isNaN", "isNegativeZero", "iterate", "last", "lcm", "length", "let", "lex", "lines", "log", "logBase", "lookup", "map", "mapM", "mapM_", "mappend", "max", "maxBound", "maximum", "mconcat", "mdo", "mempty", "min", "minBound", "minimum", "mod", "module", "negate", "newtype", "notElem", "null", "odd", "of", "or", "otherwise", "pi", "pred", "print", "product", "properFraction", "pure", "putChar", "putStr", "putStrLn", "qualified", "quot", "quotRem", "read", "readFile", "readList", "readParen", "reads", "readsPrec", "realToFrac", "recip", "rem", "repeat", "replicate", "return", "reverse", "round", "scaleFloat", "scanl", "scanl1", "scanr", "scanr1", "seq", "sequence", "sequenceA", "sequence_", "show", "showChar", "showList", "showParen", "showString", "shows", "showsPrec", "significand", "signum", "sin", "sinh", "snd", "span", "splitAt", "sqrt", "subtract", "succ", "sum", "tail", "take", "takeWhile", "tan", "tanh", "then", "toEnum", "toInteger", "toRational", "trace", "traverse", "truncate", "type", "uncurry", "undefined", "unlines", "until", "unwords", "unzip", "unzip3", "where", "words", "writeFile", "zip", "zip3", "zipWith", "zipWith3",
 }
 
 -- TODO make a top 1000 most uncommon english words as well
