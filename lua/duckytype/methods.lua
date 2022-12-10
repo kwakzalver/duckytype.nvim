@@ -156,13 +156,19 @@ Methods.Start = function(key_override)
           total = total + #line
         end
         local wpm_estimate = (total / settings.average_word_length) / (elapsed / 60.0)
-        local message = string.format(
-          "you typed %d characters in %d seconds, that is roughly %d wpm!",
-          total, elapsed, wpm_estimate
+        local m1 = string.format(
+          "%d characters in %d seconds",
+          total, elapsed
         )
-        Methods.HighlightLine(#expected, ":: ", message)
+        local m2 = string.format(
+          "roughly %d wpm!",
+          wpm_estimate
+        )
+
+        Methods.HighlightLine(#expected, ":: ", m1)
+        Methods.HighlightLine(#expected + 1, ":: ", m2)
         -- TODO this is probably sensitive to user-defined keybindings?
-        vim.api.nvim_input("<Esc>j")
+        vim.api.nvim_input("<Esc>jj")
         Methods.RedrawBuffer()
       end
     end
