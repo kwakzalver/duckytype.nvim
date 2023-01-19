@@ -10,11 +10,11 @@ local Defaults = {
   window_config = {
     style = 'minimal',
     border = 'single',
-    relative = 'win',
+    relative = 'editor',
     focusable = true,
     col = 1,
     row = 1,
-    width = 80,
+    width = 69,
     height = 8,
   },
 
