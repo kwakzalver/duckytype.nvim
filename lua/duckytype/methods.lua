@@ -123,10 +123,12 @@ Methods.Start = function(key_override)
   local _ = Methods.Expect(key, constants)
 
   buffer = vim.api.nvim_create_buf(false, true)
-  local c = (vim.api.nvim_get_option("columns") - settings.window_config.width) / 2
-  local r = (vim.api.nvim_get_option("lines") - settings.window_config.height) / 2
-  settings.window_config.col = c
-  settings.window_config.row = r
+  if settings.centered then
+    local c = (vim.api.nvim_get_option("columns") - settings.window_config.width) / 2
+    local r = (vim.api.nvim_get_option("lines") - settings.window_config.height) / 2
+    settings.window_config.col = c
+    settings.window_config.row = r
+  end
   window = vim.api.nvim_open_win(buffer, true, settings.window_config)
 
   -- silly keymap to re-start a NewGame

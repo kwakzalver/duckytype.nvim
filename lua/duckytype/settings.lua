@@ -6,7 +6,8 @@ local Defaults = {
   -- MonkeyType uses 5, so if you want higher scores to stroke your ego...
   average_word_length = 5.8,
 
-  -- maybe the little pop-up window looks better when centered instead
+  -- centered adjusts col and row of window config when a new game starts
+  centered = true,
   window_config = {
     style = 'minimal',
     border = 'single',
