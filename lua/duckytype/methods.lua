@@ -266,7 +266,9 @@ Methods.RedrawBuffer = function()
     local row = cursor[1]
     if okay and row == index then
       -- jump to next line if current line is okay
-      vim.api.nvim_win_set_cursor(window, { row + 1, 0 })
+      vim.api.nvim_input('<Esc>jI')
+      -- TODO (?)
+      -- vim.api.nvim_win_set_cursor(window, { row + 1, 0 })
     end
   end
   return done
